@@ -51,7 +51,7 @@ function generate_name ($file) {
 			$name .= '.' . strip_tags($ext);
 
 		// Check if a file with the same name does already exist in the database
-		$q = $db->prepare('SELECT COUNT(name) FROM pomf WHERE name = (:name)');
+		$q = $db->prepare('SELECT COUNT(filename) FROM files WHERE filename = (:name)');
 		$q->bindValue(':name', $name, PDO::PARAM_STR);
 		$q->execute();
 		$result = $q->fetchColumn();
@@ -86,7 +86,7 @@ function upload_file ($file) {
 		return array(
 			'hash' => $file->get_sha1(),
 			'name' => $file->name,
-			'url'  => $result['filename'],
+			'url'  => POMF_URL . $result['filename'],
 			'size' => $file->size
 		);
 	}
